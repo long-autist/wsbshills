@@ -32,6 +32,9 @@ SUB = "wallstreetbets"
 # number of hot threads to query
 NUM_THREADS = 20
 
+# thread age limit in seconds (24 hours)
+TIME_LIMIT = 24*60*60
+
 # ticker CSV
 TICKERFILE = "SP500.csv"
 # additional symbols (like ETFs, etc) - one per line
@@ -116,7 +119,7 @@ if __name__ == "__main__":
 	print("Authenticated " + str(reddit.user.me()))
 
 	for submission in reddit.subreddit(SUB).hot(limit=NUM_THREADS):
-		if time.time() - submission.created_utc < 24*60*60:
+		if time.time() - submission.created_utc < TIME_LIMIT:
 			analyze_thread(submission)
 			# keep in mind API rate limits
 			time.sleep(4)
